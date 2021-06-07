@@ -4,7 +4,6 @@
 //
 //  Created by Dhruv Rawat on 2021-06-07.
 //
-
 import Foundation
 import UIKit
 import Amplify
@@ -22,6 +21,7 @@ class Backend {
         // initialize amplify
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
             try Amplify.configure()
             print("Initialized Amplify");
         } catch {
@@ -80,7 +80,7 @@ class Backend {
             .sink {
                 if case let .failure(authError) = $0 {
                     print("Sign out failed with error \(authError)")
-                }   
+                }
             }
             receiveValue: {
                 print("Successfully signed out")
@@ -92,6 +92,76 @@ class Backend {
         DispatchQueue.main.async() {
             let userData : UserData = .shared
             userData.isSignedIn = status
+
+            // when user is signed in, query the database, otherwise empty our model
+            if status {
+                self.queryNotes()
+            } else {
+                userData.notes = []
+            }
         }
     }
+    
+    // CRUD Methods
+    
+    func queryNotes() {
+        _ = Amplify.API.query(request: .list(NoteData.self) /* Returns a list of all the notes in our database */) { event in // Read our database and request all notes in database
+            switch event {
+            case .success(let result): // If retrieved successfully
+                switch result {
+                case .success(let notesData):
+                    print("Successfully retrieved list of Notes")
+
+                    // convert an array of NoteData to an array of Note class instances
+                    for n in notesData {
+                        let note = Note.init(from: n)
+                        DispatchQueue.main.async() {
+                            UserData.shared.notes.append(note) // Add notes to the user's list of notes
+                        }
+                    }
+                case .failure(let error):
+                    print("Cannot retrieve result: error \(error)")
+                }
+            case .failure(let error):
+                print("Cannot retrieve Notes: error \(error)")
+            }
+        }
+    }
+    
+    func createNote(note: Note) {
+
+        // use note.data to access the NoteData instance
+        _ = Amplify.API.mutate(request: .create(note.data)) { event in // Update our database
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let data):
+                    print("Successfully created note: \(data)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+
+    func deleteNote(note: Note) {
+
+        // use note.data to access the NoteData instance
+        _ = Amplify.API.mutate(request: .delete(note.data)) { event in
+            switch event {
+            case .success(let result):
+                switch result {
+                case .success(let data):
+                    print("Successfully deleted note: \(data)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    }
+
 }
