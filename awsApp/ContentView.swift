@@ -34,20 +34,29 @@ class Note : Identifiable, ObservableObject {
 }
 
 // Represents a single item in a list
-struct ListRow : View {
-    @ObservedObject var note : Note // Indicates that we are observing for changes in this object
+struct ListRow: View {
+    // Indicates that we are observing for changes in this object
+    @ObservedObject var note : Note
     
-    var body : some View { // Identifies that we are making a view to be displayed on the screen. In SwiftUI all UI stuff must be within one of these methods
-        // Display image on left if present
-        if (nil != note.image) {
-            note.image!.resizable().frame(width: 50, height: 50) // Display image
-        }
-        
-        VStack(alignment: .leading, spacing: 5.0) {
-            Text(note.name).bold()
-            
-            if (nil != note.description) {
-                Text(note.description!) // Expanation mark needed since this is an optional variable (We must extract its value)
+    // Identifies that we are making a view to be displayed on the screen. In SwiftUI all UI stuff must be within one of these methods
+    var body: some View {
+        return HStack(alignment: .center, spacing: 5.0) {
+
+            // Display image on left if present
+            if (note.image != nil) {
+                note.image!
+                .resizable()
+                .frame(width: 50, height: 50) // Display image
+            }
+
+            // the right part is a vertical stack with the title and description
+            VStack(alignment: .leading, spacing: 5.0) {
+                Text(note.name)
+                .bold()
+
+                if ((note.description) != nil) {
+                    Text(note.description!) // Expanation mark needed since this is an optional variable (We must extract its value)
+                }
             }
         }
     }
@@ -89,3 +98,5 @@ func prepareTestData() -> UserData {
     
     return userData
 }
+
+
