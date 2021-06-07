@@ -26,6 +26,7 @@
 		FCF0CC0B266EAFC600B584AE /* NoteData+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF0CC08266EAFC600B584AE /* NoteData+Schema.swift */; };
 		FCF0CC0E266EB0D800B584AE /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FCF0CC0C266EB0D800B584AE /* amplifyconfiguration.json */; };
 		FCF0CC0F266EB0D800B584AE /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FCF0CC0D266EB0D800B584AE /* awsconfiguration.json */; };
+		FCF0CC11266EB51D00B584AE /* CaptureImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF0CC10266EB51D00B584AE /* CaptureImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		FCF0CC08266EAFC600B584AE /* NoteData+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NoteData+Schema.swift"; sourceTree = "<group>"; };
 		FCF0CC0C266EB0D800B584AE /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = SOURCE_ROOT; };
 		FCF0CC0D266EB0D800B584AE /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = SOURCE_ROOT; };
+		FCF0CC10266EB51D00B584AE /* CaptureImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 				FC58D3F3266DD23E002C4C1A /* Preview Content */,
 				FCF0CBF8266DDFAB00B584AE /* Backend.swift */,
 				FCF0CBFA266DDFCC00B584AE /* AppDelegate.swift */,
+				FCF0CC10266EB51D00B584AE /* CaptureImageView.swift */,
 			);
 			path = awsApp;
 			sourceTree = "<group>";
@@ -384,13 +387,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-awsApp/Pods-awsApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-awsApp/Pods-awsApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -407,6 +406,7 @@
 				FCF0CBFB266DDFCC00B584AE /* AppDelegate.swift in Sources */,
 				FC58D3F0266DD23B002C4C1A /* ContentView.swift in Sources */,
 				FCF0CC09266EAFC600B584AE /* NoteData.swift in Sources */,
+				FCF0CC11266EB51D00B584AE /* CaptureImageView.swift in Sources */,
 				FC58D3EE266DD23B002C4C1A /* awsAppApp.swift in Sources */,
 				FCF0CC0A266EAFC600B584AE /* AmplifyModels.swift in Sources */,
 				FCF0CBF9266DDFAB00B584AE /* Backend.swift in Sources */,

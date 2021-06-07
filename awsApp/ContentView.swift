@@ -36,6 +36,17 @@ class Note : Identifiable, ObservableObject {
     convenience init(from data: NoteData) {
         self.init(id: data.id, name: data.name, description: data.description, image: data.image)
         
+        if let name = self.imageName {
+            // asynchronously download the image
+            Backend.shared.retrieveImage(name: name) { (data) in
+                // update the UI on the main thread
+                DispatchQueue.main.async() {
+                    let uim = UIImage(data: data)
+                    self.image = Image(uiImage: uim!)
+                }
+            }
+        }
+        
         // Store API object
         self._data = data
     }
@@ -117,7 +128,8 @@ struct AddNoteView: View {
 
     @State var name : String = "New Note"
     @State var description : String = "This is a new note"
-    @State var image : String = "image"
+    @State var image : UIImage? // replace the previous declaration of image
+    @State var showCaptureImageView = false
     
     var body: some View {
         Form {
@@ -127,24 +139,51 @@ struct AddNoteView: View {
             }
 
             Section(header: Text("PICTURE")) {
-                TextField("Name", text: $image)
+                VStack {
+                    Button(action: {
+                        self.showCaptureImageView.toggle()
+                    }) {
+                        Text("Choose photo")
+                    }.sheet(isPresented: $showCaptureImageView) {
+                        CaptureImageView(isShown: self.$showCaptureImageView, image: self.$image) // Opens capture image view
+                    }
+                    
+                    if (image != nil ) {
+                        HStack {
+                            Spacer()
+                            Image(uiImage: image!)
+                                .resizable()
+                                .frame(width: 250, height: 200)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                .shadow(radius: 10)
+                            Spacer()
+                        }
+                    }
+                }
             }
 
             Section {
                 Button(action: {
                     self.isPresented = false
-                    
-                    // Creates new NoteData object
-                    let noteData = NoteData(id : UUID().uuidString,
-                                            name: self.$name.wrappedValue,
-                                            description: self.$description.wrappedValue)
-                    
-                    let note = Note(from: noteData) // Makes note
+
+                    let note = Note(id : UUID().uuidString,
+                                    name: self.$name.wrappedValue,
+                                    description: self.$description.wrappedValue)
+
+                    if let i = self.image  { // If image is picked, run this code
+                        note.imageName = UUID().uuidString
+                        note.image = Image(uiImage: i)
+
+                        // asynchronously store the image (and assume it will work)
+                        Backend.shared.storeImage(name: note.imageName!, image: (i.pngData())!)
+                    }
+
                     // asynchronously store the note (and assume it will succeed)
                     Backend.shared.createNote(note: note)
 
                     // add the new note in our userdata, this will refresh UI
-                    self.userData.notes.append(note)
+                    withAnimation { self.userData.notes.append(note) }
                 }) {
                     Text("Create this note")
                 }
@@ -162,7 +201,6 @@ struct ContentView: View {
     @State var showCreateNote = false
     @State var name : String = "New Note"
     @State var description : String = "This is a new note"
-    @State var image : String = "image"
     
     var body: some View {
         ZStack {
