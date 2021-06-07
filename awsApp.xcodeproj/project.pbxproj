@@ -118,8 +118,6 @@
 		FC58D3E1266DD23B002C4C1A = {
 			isa = PBXGroup;
 			children = (
-				FCF0CBF4266DDF9900B584AE /* amplifyconfiguration.json */,
-				FCF0CBF5266DDF9900B584AE /* awsconfiguration.json */,
 				FC58D3EC266DD23B002C4C1A /* awsApp */,
 				FC58D3FE266DD23F002C4C1A /* awsAppTests */,
 				FC58D409266DD23F002C4C1A /* awsAppUITests */,
@@ -143,6 +141,8 @@
 		FC58D3EC266DD23B002C4C1A /* awsApp */ = {
 			isa = PBXGroup;
 			children = (
+				FCF0CBF4266DDF9900B584AE /* amplifyconfiguration.json */,
+				FCF0CBF5266DDF9900B584AE /* awsconfiguration.json */,
 				FC58D3ED266DD23B002C4C1A /* awsAppApp.swift */,
 				FC58D3EF266DD23B002C4C1A /* ContentView.swift */,
 				FC58D3F1266DD23E002C4C1A /* Assets.xcassets */,

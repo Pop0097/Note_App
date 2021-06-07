@@ -62,14 +62,50 @@ struct ListRow: View {
     }
 }
 
+struct SignInButton: View {
+    var body: some View {
+        Button(action: { Backend.shared.signIn() /* Specifies function that will be called when pressed */}){
+            HStack {
+                Image(systemName: "person.fill")
+                    .scaleEffect(1.5)
+                    .padding()
+                Text("Sign In")
+                    .font(.largeTitle)
+            }
+            .padding()
+            .foregroundColor(.white)
+            .background(Color.green)
+            .cornerRadius(30)
+        }
+    }
+}
+
+struct SignOutButton : View {
+    var body: some View {
+        Button(action: { Backend.shared.signOut() }) {
+            Text("Sign Out")
+        }
+    }
+}
+
 // Main view of the Application. What loads first
 struct ContentView: View {
     @ObservedObject private var userData : UserData = .shared
     
     var body: some View {
-        List {
-            ForEach(userData.notes) { note in // Other form of a for loop. Same as "for note in userData.notes"
-                ListRow(note: note)
+        ZStack {
+            if (userData.isSignedIn) { // View conditional on signin status
+                NavigationView { // Creates a navigation bar
+                    List {
+                        ForEach(userData.notes) { note in // Other form of a for loop. Same as "for note in userData.notes"
+                            ListRow(note: note)
+                        }
+                    }
+                    .navigationBarTitle(Text("Notes"))
+                    .navigationBarItems(leading: SignOutButton())
+                }
+            } else {
+                SignInButton()
             }
         }
     }
