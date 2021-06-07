@@ -1,0 +1,6 @@
+framework module Pods_awsApp {
+  umbrella header "Pods-awsApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
