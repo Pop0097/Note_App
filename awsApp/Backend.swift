@@ -8,6 +8,8 @@ import Foundation
 import UIKit
 import Amplify
 import AmplifyPlugins
+import AWSPluginsCore
+import Combine
 
 // Singleton
 class Backend {
@@ -157,12 +159,32 @@ class Backend {
                 case .success(let data):
                     print("Successfully deleted note: \(data)")
                 case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
+                    print("Delete failed result with \(error.errorDescription)")
                 }
             case .failure(let error):
-                print("Got failed event with error \(error)")
+                print("Dekete failed event with error \(error)")
             }
         }
+    }
+    
+    func editNote(note: Note) {
+        var noteToEdit = Note(id: note.id, name: note.name, description: nil != note.description ? note.description! : nil, image: nil != note.imageName ? note.imageName! : nil)
+                
+        _ = Amplify.API.mutate(request: .update(noteToEdit.data))
+            .resultPublisher
+            .sink {
+                if case let .failure(error) = $0 {
+                    print("Got failed event with error \(error)")
+                }
+            }
+            receiveValue: { result in
+                switch result {
+                case .success(let data):
+                    print("Successfully created todo: \(data)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+                }
+            }
     }
     
     // Image CRUD Methods

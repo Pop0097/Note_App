@@ -13,6 +13,10 @@
 		7C31CEC4936293904ADAECED /* Pods_awsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69A6D750DF3610A0C6FA45D9 /* Pods_awsApp.framework */; };
 		A599A61B63A3CC89786ED66D /* NoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC59C7AE5C5842F03532504F /* NoteData.swift */; };
 		BF383822D9FF7E6B6A561499 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D9BF4F050754FBF0B11F8B1B /* amplifyconfiguration.json */; };
+		FC2236E2266EFEC500F49B8A /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2236E1266EFEC500F49B8A /* Notes.swift */; };
+		FC2236E426702E3400F49B8A /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2236E326702E3400F49B8A /* TextArea.swift */; };
+		FC2236E826702F6800F49B8A /* PlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2236E726702F6800F49B8A /* PlaceholderTextField.swift */; };
+		FC2236EB2670405B00F49B8A /* ConvertBoundOptionalToBoundLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2236EA2670405B00F49B8A /* ConvertBoundOptionalToBoundLiteral.swift */; };
 		FC58D3EE266DD23B002C4C1A /* awsAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58D3ED266DD23B002C4C1A /* awsAppApp.swift */; };
 		FC58D3F0266DD23B002C4C1A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC58D3EF266DD23B002C4C1A /* ContentView.swift */; };
 		FC58D3F2266DD23E002C4C1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC58D3F1266DD23E002C4C1A /* Assets.xcassets */; };
@@ -54,6 +58,10 @@
 		CC59C7AE5C5842F03532504F /* NoteData.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = NoteData.swift; path = amplify/generated/models/NoteData.swift; sourceTree = "<group>"; };
 		D9BF4F050754FBF0B11F8B1B /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		DB18863706AD85DE44C5D6D9 /* NoteData+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "NoteData+Schema.swift"; path = "amplify/generated/models/NoteData+Schema.swift"; sourceTree = "<group>"; };
+		FC2236E1266EFEC500F49B8A /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
+		FC2236E326702E3400F49B8A /* TextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextArea.swift; sourceTree = "<group>"; };
+		FC2236E726702F6800F49B8A /* PlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextField.swift; sourceTree = "<group>"; };
+		FC2236EA2670405B00F49B8A /* ConvertBoundOptionalToBoundLiteral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertBoundOptionalToBoundLiteral.swift; sourceTree = "<group>"; };
 		FC58D3EA266DD23B002C4C1A /* awsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = awsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC58D3ED266DD23B002C4C1A /* awsAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = awsAppApp.swift; sourceTree = "<group>"; };
 		FC58D3EF266DD23B002C4C1A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -177,6 +185,10 @@
 				FCF0CBF8266DDFAB00B584AE /* Backend.swift */,
 				FCF0CBFA266DDFCC00B584AE /* AppDelegate.swift */,
 				FCF0CC10266EB51D00B584AE /* CaptureImageView.swift */,
+				FC2236E1266EFEC500F49B8A /* Notes.swift */,
+				FC2236E326702E3400F49B8A /* TextArea.swift */,
+				FC2236E726702F6800F49B8A /* PlaceholderTextField.swift */,
+				FC2236EA2670405B00F49B8A /* ConvertBoundOptionalToBoundLiteral.swift */,
 			);
 			path = awsApp;
 			sourceTree = "<group>";
@@ -408,8 +420,12 @@
 				FCF0CC09266EAFC600B584AE /* NoteData.swift in Sources */,
 				FCF0CC11266EB51D00B584AE /* CaptureImageView.swift in Sources */,
 				FC58D3EE266DD23B002C4C1A /* awsAppApp.swift in Sources */,
+				FC2236E2266EFEC500F49B8A /* Notes.swift in Sources */,
 				FCF0CC0A266EAFC600B584AE /* AmplifyModels.swift in Sources */,
+				FC2236E426702E3400F49B8A /* TextArea.swift in Sources */,
+				FC2236E826702F6800F49B8A /* PlaceholderTextField.swift in Sources */,
 				FCF0CBF9266DDFAB00B584AE /* Backend.swift in Sources */,
+				FC2236EB2670405B00F49B8A /* ConvertBoundOptionalToBoundLiteral.swift in Sources */,
 				FCF0CC0B266EAFC600B584AE /* NoteData+Schema.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

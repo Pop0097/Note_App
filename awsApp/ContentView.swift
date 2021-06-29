@@ -16,55 +16,6 @@ class UserData : ObservableObject {
     @Published var isSignedIn : Bool = false
 }
 
-// Model for our Notes
-class Note : Identifiable, ObservableObject {
-    var id : String
-    var name : String
-    var description : String? // Optional because they can be null
-    var imageName : String?
-    @Published var image : Image?
-    
-    fileprivate var _data : NoteData? // Scope is only this file. Like a static global variable in C
-    
-    init(id: String, name: String, description: String? = nil /* Optional parameter */, image: String? = nil) {
-        self.id = id
-        self.name = name
-        self.description = description
-        self.imageName = image
-    }
-    
-    convenience init(from data: NoteData) {
-        self.init(id: data.id, name: data.name, description: data.description, image: data.image)
-        
-        if let name = self.imageName {
-            // asynchronously download the image
-            Backend.shared.retrieveImage(name: name) { (data) in
-                // update the UI on the main thread
-                DispatchQueue.main.async() {
-                    let uim = UIImage(data: data)
-                    self.image = Image(uiImage: uim!)
-                }
-            }
-        }
-        
-        // Store API object
-        self._data = data
-    }
-
-    // access the privately stored NoteData or build one if we don't have one.
-    var data : NoteData {
-
-        if (_data == nil) {
-            _data = NoteData(id: self.id,
-                            name: self.name,
-                            description: self.description,
-                            image: self.imageName)
-        }
-
-        return _data!
-    }
-}
-
 // Represents a single item in a list
 struct ListRow: View {
     // Indicates that we are observing for changes in this object
@@ -72,7 +23,7 @@ struct ListRow: View {
     
     // Identifies that we are making a view to be displayed on the screen. In SwiftUI all UI stuff must be within one of these methods
     var body: some View {
-        return HStack(alignment: .center, spacing: 5.0) {
+        HStack(alignment: .center, spacing: 5.0) {
 
             // Display image on left if present
             if (note.image != nil) {
@@ -120,78 +71,6 @@ struct SignOutButton : View {
     }
 }
 
-struct AddNoteView: View {
-    // @Binding lets us declare that one value actually comes from elsewhere, and should be shared in both places.
-    @Binding var isPresented: Bool
-    
-    var userData: UserData
-
-    @State var name : String = "New Note"
-    @State var description : String = "This is a new note"
-    @State var image : UIImage? // replace the previous declaration of image
-    @State var showCaptureImageView = false
-    
-    var body: some View {
-        Form {
-            Section(header: Text("TEXT")) {
-                TextField("Name", text: $name)
-                TextField("Name", text: $description)
-            }
-
-            Section(header: Text("PICTURE")) {
-                VStack {
-                    Button(action: {
-                        self.showCaptureImageView.toggle()
-                    }) {
-                        Text("Choose photo")
-                    }.sheet(isPresented: $showCaptureImageView) {
-                        CaptureImageView(isShown: self.$showCaptureImageView, image: self.$image) // Opens capture image view
-                    }
-                    
-                    if (image != nil ) {
-                        HStack {
-                            Spacer()
-                            Image(uiImage: image!)
-                                .resizable()
-                                .frame(width: 250, height: 200)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                .shadow(radius: 10)
-                            Spacer()
-                        }
-                    }
-                }
-            }
-
-            Section {
-                Button(action: {
-                    self.isPresented = false
-
-                    let note = Note(id : UUID().uuidString,
-                                    name: self.$name.wrappedValue,
-                                    description: self.$description.wrappedValue)
-
-                    if let i = self.image  { // If image is picked, run this code
-                        note.imageName = UUID().uuidString
-                        note.image = Image(uiImage: i)
-
-                        // asynchronously store the image (and assume it will work)
-                        Backend.shared.storeImage(name: note.imageName!, image: (i.pngData())!)
-                    }
-
-                    // asynchronously store the note (and assume it will succeed)
-                    Backend.shared.createNote(note: note)
-
-                    // add the new note in our userdata, this will refresh UI
-                    withAnimation { self.userData.notes.append(note) }
-                }) {
-                    Text("Create this note")
-                }
-            }
-        }
-    }
-}
-
 // Main view of the Application. What loads first
 struct ContentView: View {
     
@@ -208,7 +87,9 @@ struct ContentView: View {
                 NavigationView { // Creates a navigation bar
                     List {
                         ForEach(userData.notes) { note in // Other form of a for loop. Same as "for note in userData.notes"
-                            ListRow(note: note)
+                            NavigationLink(destination: Notes(note: note)) {
+                                ListRow(note: note)
+                            }
                         }.onDelete { indices in
                             indices.forEach {
                                 // removing from user data will refresh UI

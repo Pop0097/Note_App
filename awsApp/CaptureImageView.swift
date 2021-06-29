@@ -16,7 +16,7 @@ struct CaptureImageView {
   @Binding var image: UIImage?
 
   func makeCoordinator() -> Coordinator {
-    return Coordinator(isShown: $isShown, image: $image)
+    return Coordinator(isShown: $isShown, image: $image)// Sends in binded variables
   }
 }
 
@@ -24,27 +24,29 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
   @Binding var isCoordinatorShown: Bool
   @Binding var imageInCoordinator: UIImage?
     
-    // Parameters are binded to smth else
+    // Parameters are binded to smth else (in this case, the variables in the CaptureImageView struct)
   init(isShown: Binding<Bool>, image: Binding<UIImage?>) {
     _isCoordinatorShown = isShown
     _imageInCoordinator = image
   }
     
+    // If we pick an image
   func imagePickerController(_ picker: UIImagePickerController,
                 didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-     guard let unwrapImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+     guard let unwrapImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return } // Gets image and stores it
      imageInCoordinator = unwrapImage
      isCoordinatorShown = false
   }
     
-  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) { // If we dismiss/cancel picking an image
      isCoordinatorShown = false
   }
 }
 
+// This inherits the struct CaptureImageView
 extension CaptureImageView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<CaptureImageView>) -> UIImagePickerController {
-        let picker = UIImagePickerController()
+        let picker = UIImagePickerController() // Opens image picker
         picker.delegate = context.coordinator
 
         // picker.sourceType = .camera // on real devices, you can capture image from the camera
