@@ -13,12 +13,14 @@ class Note : Identifiable, ObservableObject {
     var name : String {
         didSet {
             Backend.shared.editNote(note: self)
+            Backend.shared.queryNotes()
         }
     }
     
     var description : String? {
         didSet {
             Backend.shared.editNote(note: self)
+            Backend.shared.queryNotes()
         }
     }
     var imageName : String?
@@ -160,7 +162,7 @@ struct Notes: View {
         PlaceholderTextField(note.name, text: $note.name)
         
         
-        TextArea(note.description!, text: $note.description.bound)
+        TextArea(nil != note.description ? note.description! : "", text: $note.description.bound)
     }
 }
 

@@ -114,6 +114,8 @@ class Backend {
                 switch result {
                 case .success(let notesData):
                     print("Successfully retrieved list of Notes")
+                    
+                    UserData.shared.notes.removeAll()
 
                     // convert an array of NoteData to an array of Note class instances
                     for n in notesData {
